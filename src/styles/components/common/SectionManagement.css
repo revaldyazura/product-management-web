@@ -1,0 +1,32 @@
+.adminph.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.adminph__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.adminph__subtitle {
+    margin: 4px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.adminph__right {
+    display: flex;
+    gap: 8px;
+}
+
+.admintb__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

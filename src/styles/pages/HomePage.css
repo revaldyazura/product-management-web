@@ -1,0 +1,177 @@
+.home {
+  color: #252525;
+}
+
+
+.home__user {
+  margin-right: 8px;
+  color: #6b7280;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.home__menu {
+  position: relative;
+  margin-right: 10px;
+}
+
+.home__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  min-width: 180px;
+  padding: 6px;
+  z-index: 1000;
+}
+
+.home__dropdown-item {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #111827;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.home__dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+.home__dropdown-separator {
+  height: 1px;
+  background: #eee;
+  margin: 6px;
+}
+
+.home__menu-btn {
+  background: transparent;
+  border: 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.home__hero {
+  height: 300px;
+  background: url('https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1600') center/cover no-repeat;
+  border-radius: 12px;
+  margin: 0 20px;
+  display: grid;
+  place-items: center;
+}
+
+.home__hero-content {
+  text-align: center;
+  color: white;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+.home__search {
+  display: flex;
+  background: white;
+  padding: 7px 20px;
+  border-radius: 999px;
+  width: min(760px, 92vw);
+  align-items: center;
+}
+
+.home__search InputField {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+.home__search-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 0;
+  background: #FF7900;
+  color: white;
+  cursor: pointer;
+}
+
+.home__main {
+  padding: 24px 20px 48px;
+}
+
+.home__section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.home__link {
+  background: transparent;
+  border: 0;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.home__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .05);
+  border: 1px solid #eee;
+}
+
+.card__img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card__body {
+  padding: 12px;
+}
+
+.card__title {
+  font-size: 14px;
+  line-height: 1.35;
+  margin: 0 0 10px;
+  color: #374151;
+  min-height: 38px;
+}
+
+.card__price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.card__price {
+  color: #ef6c00;
+  font-weight: 700;
+}
+
+.card__badge {
+  background: #ffedd5;
+  color: #ea580c;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.card__meta {
+  color: #6b7280;
+  font-size: 12px;
+  display: flex;
+  gap: 10px;
+}

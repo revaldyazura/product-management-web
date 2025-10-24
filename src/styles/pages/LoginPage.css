@@ -1,0 +1,116 @@
+.login-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #fff;
+}
+
+.login-card {
+    width: 380px;
+    max-width: 90vw;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.04);
+}
+
+.brand {
+    font-weight: 800;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.brand {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo {
+    width: 120px;
+    height: auto;
+    display: block;
+}
+
+/* Jika SVG menggunakan currentColor, Anda bisa mengubah warna lewat color */
+.brand {
+    color: #111827;
+}
+
+/* Jika SVG punya fill hard-coded, Anda bisa override jika selector path/shape-nya sederhana: */
+/* .brand-logo path { fill: #111827; } */
+.subtitle {
+    color: #6b7280;
+    margin: 0 0 16px;
+    font-size: 14px;
+}
+
+.field {
+    margin: 7px 0px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #111827;
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0 12px;
+    outline: none;
+}
+
+input[aria-invalid="true"] {
+    border-color: #ef4444;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.error {
+    color: #b91c1c;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.server-error {
+    color: #b45309;
+    background: #fffbeb;
+    border: 1px solid #f59e0b;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.primary {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+    border: none;
+    background: #FF7900;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.primary:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
