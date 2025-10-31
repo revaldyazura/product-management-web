@@ -4,3 +4,4 @@
 .statuspill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
 .statuspill--active { background: #ecfdf5; color: #059669; }
 .statuspill--inactive { background: #f3f4f6; color: #374151; }
+.statuspill--low { background: #fff7ed; color: #d97706; }

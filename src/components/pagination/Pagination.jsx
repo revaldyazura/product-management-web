@@ -26,21 +26,21 @@ export default function Pagination({
   return (
     <div className="adminpg wrapper">
       <div className="adminpg__left">
-        <label>
+        <span>
           Menampilkan
-          <select
-            value={pageSize}
-            onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
-          >
-            {[10, 20, 50].map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
+        </span>
+        <select
+          value={pageSize}
+          onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
+        >
+          {[10, 20, 50].map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
         {typeof total === 'number' && (
-          <span className="adminpg__total">Dari {total} Data</span>
+          <span >Dari {total} Data</span>
         )}
       </div>
 

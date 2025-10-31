@@ -30,3 +30,20 @@
     align-items: center;
     gap: 12px;
 }
+
+.admintb__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.admintb__btn--primary {
+    background: #f97316;
+    color: #fff;
+    border-color: #f97316;
+}

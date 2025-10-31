@@ -13,14 +13,15 @@ import '../../styles/components/form/AddProduct.css';
  * - onCancel: () => void
  * - defaultValues?: partial
  */
-export default function AddProduct({ onSubmit, onCancel, defaultValues }) {
+export default function AddProduct({ onSubmit, onCancel, defaultValues, submitLabel = 'Tambah' }) {
   const [form, setForm] = useState({
     name: defaultValues?.name || '',
     price: defaultValues?.price || '',
     category: defaultValues?.category || '',
     stock: defaultValues?.stock || 0,
+    low_stock: defaultValues?.low_stock || 0,
     unit: defaultValues?.unit || 'Unit',
-    inactive: defaultValues?.inactive ?? false,
+    status: defaultValues?.status ? defaultValues.status === 'active' : false,
     imageFile: null,
     imageUrl: defaultValues?.image || '',
     description: defaultValues?.description || '',
@@ -81,13 +82,7 @@ export default function AddProduct({ onSubmit, onCancel, defaultValues }) {
               <InputField id="name" label="Nama Produk*" fullWidth value={form.name} onChange={handle('name')} />
             </div>
             <div className="product__item">
-              <label className="product__label" htmlFor="category">Kategori Produk*</label>
-              <select id="category" className="product__select" value={form.category} onChange={handle('category')}>
-                <option value="">Pilih kategori</option>
-                <option>Furniture</option>
-                <option>Dekorasi</option>
-                <option>Elektronik</option>
-              </select>
+              <InputField id="category" label="Kategori*" fullWidth value={form.category} onChange={handle('category')} />
             </div>
           </div>
 
@@ -130,8 +125,32 @@ export default function AddProduct({ onSubmit, onCancel, defaultValues }) {
               <div className="statuspanel__desc">Sistem akan menandai produk sebagai “Menipis” secara otomatis jika stoknya mendekati habis.</div>
             </div>
             <div className="statuspanel__control">
-              <span className="statuspanel__label">Nonaktif</span>
-              <Switch checked={form.inactive} onChange={(e) => setForm((f) => ({ ...f, inactive: e.target.checked }))} />
+              {form?.status ? (
+                <span className="statuspanel__label">Aktif</span>
+              ) : (
+                <span className="statuspanel__label">Nonaktif</span>
+              )}
+              <Switch checked={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.checked }))} />
+            </div>
+          </div>
+
+          <div className="prodgrid__row">
+            <div className="product__item product__item--full">
+              <div className="stockrow">
+                <InputField
+                  id="low_stock"
+                  label="Produk Menipis*"
+                  type="number"
+                  fullWidth
+                  value={form.low_stock}
+                  onChange={handle('low_stock')}
+                />
+                <select className="stockrow__unit" value={form.unit} onChange={handle('unit')}>
+                  <option>Unit</option>
+                  <option>Pcs</option>
+                  <option>Kg</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -139,7 +158,7 @@ export default function AddProduct({ onSubmit, onCancel, defaultValues }) {
 
       <div className="product__actions">
         <button type="button" className="btn btn--ghost" onClick={onCancel}>Batal</button>
-        <button type="submit" className="btn btn--primary" disabled={!isValid}>Tambah</button>
+        <button type="submit" className="btn btn--primary" disabled={!isValid}>{submitLabel}</button>
       </div>
     </form>
   );

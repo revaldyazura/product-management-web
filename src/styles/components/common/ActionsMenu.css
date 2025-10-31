@@ -1,0 +1,68 @@
+.rowactions {
+  position: relative;
+  display: inline-block;
+}
+
+.actionmenu {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 6px;
+  z-index: 30;
+}
+
+.actionmenu__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #111827;
+}
+
+.actionmenu__item:hover {
+  background: #f9fafb;
+}
+
+.actionmenu__item--danger {
+  color: #ef4444;
+}
+
+.actionmenu__icon {
+  color: #6b7280;
+}
+
+.actionmenu__item--danger .actionmenu__icon {
+  color: #ef4444;
+}
+
+.actionmenu__arrow {
+  margin-left: auto;
+  color: #9ca3af;
+}
+
+.iconbtn {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #6b7280;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.iconbtn:hover {
+  background: #f9fafb;
+}

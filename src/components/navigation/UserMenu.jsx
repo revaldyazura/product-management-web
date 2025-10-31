@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import '../../styles/components/navigation/UserMenu.css';
 
 export default function UserMenu() {
   const { hasRole, logout } = useAuth();
@@ -46,9 +47,9 @@ export default function UserMenu() {
   }
 
   return (
-    <div className="home__menu" ref={menuRef}>
+    <div className="user__menu" ref={menuRef}>
       <button
-        className="home__menu-btn"
+        className="user__menu-btn"
         aria-label="menu"
         aria-haspopup="menu"
         aria-expanded={menuOpen}
@@ -58,28 +59,28 @@ export default function UserMenu() {
       </button>
 
       {menuOpen && (
-        <div className="home__dropdown" role="menu">
+        <div className="user__dropdown" role="menu">
           {hasRole('admin') && (
             <>
               <button
-                className="home__dropdown-item"
+                className="user__dropdown-item"
                 role="menuitem"
                 onClick={toAdminUsers}
               >
                 Manage User
               </button>
               <button
-                className="home__dropdown-item"
+                className="user__dropdown-item"
                 role="menuitem"
                 onClick={toAdminProducts}
               >
                 Manage Product
               </button>
-              <div className="home__dropdown-separator" aria-hidden="true" />
+              <div className="user__dropdown-separator" aria-hidden="true" />
             </>
           )}
           <button
-            className="home__dropdown-item"
+            className="user__dropdown-item"
             role="menuitem"
             onClick={handleLogout}
           >

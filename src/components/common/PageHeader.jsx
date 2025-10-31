@@ -4,6 +4,8 @@ import UserMenu from '../navigation/UserMenu';
 import { useAuth } from '../../context/AuthContext';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import '../../styles/components/common/PageHeader.css';
+import defaultAvatar from "../../assets/default-avatar.svg";
+import { withBaseUrl } from '../../utils/helper';
 
 /**
  * PageHeader (App-level top header bar used across pages)
@@ -18,18 +20,21 @@ export default function PageHeader() {
       </div>
       <div className="page_header-right">
         <UserMenu />
-        <span className="home__user">{user?.name ?? 'User'}</span>
-        <span className="home__pic_profile">
-          {user?.profile_pic ? (
+        <div className='page__user'>
+          <span className="page__username">{user?.name ?? 'User'}</span>
+          {user?.avatar_url ? (
             <img
-              src={user.profile_pic}
-              alt="Foto profil"
-              style={{ width: 28, height: 28, borderRadius: '50%' }}
+              src={withBaseUrl(user.avatar_url)}
+              alt={user.name}
+            style={{ width: 28, height: 28, borderRadius: '50%' }}
             />
           ) : (
-            <AccountCircleIcon />
+            <img src={defaultAvatar} alt='Foto Profil' 
+            style={{ width: 28, height: 28, borderRadius: '50%' }}
+            />
           )}
-        </span>
+          {/* </div> */}
+        </div>
       </div>
     </header>
   );

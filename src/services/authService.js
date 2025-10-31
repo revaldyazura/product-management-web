@@ -34,7 +34,7 @@ export async function login(username, password, persistMode = 'session') {
   form.set('grant_type', 'password');
   form.set('scope', '');
 
-  const data = await apiClient('/user/controller/api/v1/auth/login', {
+  const data = await apiClient('/auth/controller/api/v1/login', {
     method: 'POST',
     // Penting: override default 'application/json' di apiClient
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -51,7 +51,7 @@ export async function login(username, password, persistMode = 'session') {
 
 export async function logout() {
   try {
-    await apiClient('/user/controller/api/v1/auth/logout', { method: 'POST' });
+    await apiClient('/auth/controller/api/v1/logout', { method: 'POST' });
   } finally {
     clearAccessToken();
     clearStoredToken();
@@ -59,7 +59,7 @@ export async function logout() {
 }
 
 export function getMe() {
-  return apiClient('/user/controller/api/v1/auth/me');
+  return apiClient('/auth/controller/api/v1/me');
 }
 
 // Register a new user according to FastAPI schema
@@ -74,7 +74,7 @@ export async function registerUser(payload) {
     roles: Array.isArray(payload.roles) && payload.roles.length ? payload.roles : undefined,
   };
 
-  return apiClient('/user/controller/api/v1/auth/register', {
+  return apiClient('/auth/controller/api/v1/register', {
     method: 'POST',
     body,
   });
@@ -85,7 +85,7 @@ export async function uploadAvatar(userId, file) {
   if (!userId || !file) throw new Error('userId and file are required');
   const form = new FormData();
   form.append('file', file);
-  return apiClient(`/user/controller/api/v1/users/${encodeURIComponent(userId)}/avatar`, {
+  return apiClient(`/user/controller/api/v1/${encodeURIComponent(userId)}/avatar`, {
     method: 'POST',
     body: form,
   });

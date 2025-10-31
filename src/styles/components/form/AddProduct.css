@@ -98,6 +98,8 @@
   border-radius: 10px;
   resize: vertical;
   min-height: 80px;
+  box-sizing: border-box; /* prevent overflow beyond modal width */
+  max-width: 100%;
 }
 
 .stockrow {

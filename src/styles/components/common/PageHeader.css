@@ -9,3 +9,24 @@
     display: flex;
     align-items: center;
 }
+
+
+.page__user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page__username {
+  padding-right: 6px;
+  color: #6b7280;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.page__pic_profile {
+  display: flex;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+}

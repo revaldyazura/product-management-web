@@ -2,12 +2,21 @@ import React from 'react';
 import '../../styles/components/common/StatusBadge.css';
 
 /**
- * StatusBadge - small pill for active/inactive
- * Props: status: 'active' | 'inactive' | string
+ * StatusBadge - small pill for status display
+ * Props: status: 'active' | 'inactive' | 'menipis' | string
  */
 export default function StatusBadge({ status }) {
   const normalized = (status || '').toLowerCase();
-  const isActive = normalized === 'active' || normalized === 'aktif';
-  const cls = `statuspill ${isActive ? 'statuspill--active' : 'statuspill--inactive'}`;
-  return <span className={cls}>{isActive ? 'Active' : 'Nonaktif'}</span>;
+  let cls = 'statuspill statuspill--inactive';
+  let label = 'Nonaktif';
+
+  if (normalized === 'menipis' || normalized === 'low') {
+    cls = 'statuspill statuspill--low';
+    label = 'Menipis';
+  } else if (normalized === 'active' || normalized === 'aktif') {
+    cls = 'statuspill statuspill--active';
+    label = 'Aktif';
+  }
+
+  return <span className={cls}>{label}</span>;
 }

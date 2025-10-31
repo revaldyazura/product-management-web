@@ -9,22 +9,24 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CheckboxForm from '../components/form/CheckboxForm';
+import { useToast } from "../context/ToastContext";
 
 export default function LoginPage() {
   const { user, login } = useAuth();
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [remember, setRemember] = useState(false);
+  const { success: toastSuccess, error: toastError } = useToast();
 
   if (user) return <Navigate to="/home" replace />;
 
-  const usernameError = !username ? 'Username wajib diisi' : '';
+  const emailError = !email ? 'Email wajib diisi' : '';
   const passwordError = !password ? 'Password wajib diisi' : '';
-  const hasClientError = !!(usernameError || passwordError);
+  const hasClientError = !!(emailError || passwordError);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -32,10 +34,12 @@ export default function LoginPage() {
     setSubmitting(true);
     setErrorMsg('');
     try {
-      await login(username.trim(), password, remember ? 'local' : 'session');
+      await login(email.trim(), password, remember ? 'local' : 'session');
       navigate('/home', { replace: true });
+      toastSuccess('Welcome!');
     } catch (err) {
-      setErrorMsg(err?.message || 'Gagal masuk. Coba lagi.');
+      const msg = err?.data?.detail || err?.message || 'Gagal masuk. Coba lagi.';
+      toastError(msg || 'Gagal masuk. Coba lagi.');
     } finally {
       setSubmitting(false);
     }
@@ -47,17 +51,17 @@ export default function LoginPage() {
         <div className="brand">
           <BrandLogo className="brand-logo" aria-label="Company logo" focusable="false" />
         </div>
-        <p className="subtitle">Enter your username and password correctly</p>
+        <p className="subtitle">Enter your email and password correctly</p>
 
         <form onSubmit={handleSubmit} noValidate>
           <InputField
-            id="username"
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            error={usernameError}
-            autoComplete="username"
+            id="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            error={emailError}
+            autoComplete="email"
             fullWidth={true}
             variant="outlined"
             focusedOutlineColor='#FF7900'
@@ -100,7 +104,7 @@ export default function LoginPage() {
           </div>
 
 
-          {errorMsg && <div role="alert" className="server-error">{errorMsg}</div>}
+          {/* {errorMsg && <div role="alert" className="server-error">{errorMsg}</div>} */}
 
           <button className="primary" type="submit" disabled={submitting || hasClientError}>
             {submitting ? 'Signing In…' : 'Sign In'}

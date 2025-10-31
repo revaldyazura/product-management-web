@@ -1,0 +1,33 @@
+/* Styles for StatusModal (moved from inline styles) */
+.status-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 8px;
+}
+
+.status-modal__body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-modal__text {
+  flex: 1 1 auto;
+}
+
+.status-modal__title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.status-modal__subtitle {
+  font-size: 12px;
+  color: #6b7280; /* matches inline color from original */
+}
+
+.status-modal__switch {
+  /* container for the switch; kept for future tweaks */
+  display: flex;
+  align-items: center;
+}

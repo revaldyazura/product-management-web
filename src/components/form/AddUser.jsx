@@ -1,9 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import InputField from './InputField';
-import CheckboxForm from './CheckboxForm';
+import RolesMultiSelect from './RolesMultiSelect';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import Switch from '@mui/material/Switch';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import '../../styles/components/form/AddProduct.css';
 
 /**
@@ -12,25 +15,23 @@ import '../../styles/components/form/AddProduct.css';
  * - onSubmit: (data) => void
  * - onCancel: () => void
  */
-export default function AddUser({ onSubmit, onCancel }) {
+export default function AddUser({ onSubmit, onCancel, defaultValues, hidePassword = false, submitLabel = 'Tambah' }) {
+  const [showPw, setShowPw] = useState(false);
   const [form, setForm] = useState({
-    name: '',
-    phone: '',
-    email: '',
+    name: defaultValues?.name || '',
+    phone: defaultValues?.phone || '',
+    email: defaultValues?.email || '',
     password: '',
-    inactive: false, // false = aktif, true = nonaktif per label desain
+    status: defaultValues?.status ? defaultValues.status === 'active' : false,
     imageFile: null,
-    imageUrl: '',
-    roles: { user: true, admin: false },
+    imageUrl: defaultValues?.avatar || defaultValues?.imageUrl || '',
+    roles: defaultValues?.roles?.length ? defaultValues.roles : ['user'],
   });
 
   const isValid = useMemo(() => {
-    return (
-      form.name.trim() &&
-      form.phone.trim() &&
-      /.+@.+\..+/.test(form.email.trim()) &&
-      form.password.trim()
-    );
+    const base = form.name.trim() && /.+@.+\..+/.test(form.email.trim());
+    if (hidePassword) return base; // edit mode tidak wajib password
+    return base && form.password.trim();
   }, [form]);
 
   const handle = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -45,16 +46,13 @@ export default function AddUser({ onSubmit, onCancel }) {
 
   const submit = (e) => {
     e.preventDefault();
-    const selectedRoles = Object.entries(form.roles)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
     const register = {
       name: form.name.trim(),
       phone: form.phone.trim(),
       email: form.email.trim(),
       password: form.password.trim(),
-      status: form.inactive ? 'inactive' : 'active',
-      roles: selectedRoles.length ? selectedRoles : undefined,
+      status: form.status ? 'active' : 'inactive',
+      roles: form.roles && form.roles.length ? form.roles : undefined,
     };
     onSubmit?.({ register, imageFile: form.imageFile });
   };
@@ -87,7 +85,7 @@ export default function AddUser({ onSubmit, onCancel }) {
               <InputField id="name" label="Nama User*" fullWidth value={form.name} onChange={handle('name')} />
             </div>
             <div className="adminform__item">
-              <InputField id="phone" label="No Telephone*" fullWidth value={form.phone} onChange={handle('phone')} />
+              <InputField id="phone" label="No Telephone" fullWidth value={form.phone} onChange={handle('phone')} />
             </div>
           </div>
           <div className="usergrid__row">
@@ -96,28 +94,47 @@ export default function AddUser({ onSubmit, onCancel }) {
             </div>
           </div>
 
-          <div className="usergrid__row">
-            <div className="adminform__item">
-              <InputField id="password" label="Password*" type="password" fullWidth value={form.password} onChange={handle('password')} />
-            </div>
-            <div className="adminform__item" style={{ display: 'flex', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Roles</div>
-                <div>
-                  <CheckboxForm
-                    label="User"
-                    checked={form.roles.user}
-                    onChange={(e) => setForm((f) => ({ ...f, roles: { ...f.roles, user: e.target.checked } }))}
-                  />
-                  <CheckboxForm
-                    label="Admin"
-                    checked={form.roles.admin}
-                    onChange={(e) => setForm((f) => ({ ...f, roles: { ...f.roles, admin: e.target.checked } }))}
-                  />
-                </div>
+          {!hidePassword && (
+            <div className="usergrid__row">
+              <div className="adminform__item">
+                <InputField id="password" label="Password*" type={showPw ? 'text' : 'password'} fullWidth value={form.password} onChange={handle('password')} InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label={showPw ? 'Hide password' : 'Show password'}
+                        onClick={() => setShowPw((s) => !s)}
+                        edge="end"
+                      >
+                        {showPw ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}/>
+              </div>
+              <div className="adminform__item">
+                <RolesMultiSelect
+                  id="roles"
+                  label="Roles"
+                  value={form.roles}
+                  options={["user", "admin"]}
+                  onChange={(roles) => setForm((f) => ({ ...f, roles }))}
+                />
               </div>
             </div>
-          </div>
+          )}
+          {hidePassword && (
+            <div className="usergrid__row">
+              <div className="adminform__item">
+              <RolesMultiSelect
+                id="roles"
+                label="Roles"
+                value={form.roles}
+                options={["user", "admin"]}
+                onChange={(roles) => setForm((f) => ({ ...f, roles }))}
+              />
+            </div>
+            </div>
+          )}
 
           <div className="statuspanel">
             <div>
@@ -125,8 +142,12 @@ export default function AddUser({ onSubmit, onCancel }) {
               <div className="statuspanel__desc">Jika user telah lama tidak aktif anda bisa menonaktifkan status user secara manual</div>
             </div>
             <div className="statuspanel__control">
-              <span className="statuspanel__label">Nonaktif</span>
-              <Switch checked={form.inactive} onChange={(e) => setForm((f) => ({ ...f, inactive: e.target.checked }))} />
+              {form?.status ? (
+                <span className="statuspanel__label">Aktif</span>
+              ) : (
+                <span className="statuspanel__label">Nonaktif</span>
+              )}
+              <Switch checked={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.checked }))} />
             </div>
           </div>
         </div>
@@ -134,7 +155,7 @@ export default function AddUser({ onSubmit, onCancel }) {
 
       <div className="adminform__actions">
         <button type="button" className="btn btn--ghost" onClick={onCancel}>Batal</button>
-        <button type="submit" className="btn btn--primary" disabled={!isValid}>Tambah</button>
+        <button type="submit" className="btn btn--primary" disabled={!isValid}>{submitLabel}</button>
       </div>
     </form>
   );

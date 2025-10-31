@@ -1,0 +1,23 @@
+/* Styles for ProductDetail component */
+.product-detail {
+  display: block;
+}
+
+/* Aside (stock) */
+.product-detail__aside { display:block; }
+.product-detail__aside-title {
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.product-detail__aside-stock {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Footer */
+.product-detail__footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
