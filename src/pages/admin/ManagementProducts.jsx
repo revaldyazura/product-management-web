@@ -46,9 +46,7 @@ export default function ManagementProducts() {
         price: Number(p.unit_price || 0),
         created_at: (p.created_at || '').split('T')[0] || '',
         // FE-only visualization: menipis when stock equals low_stock (do not change BE status)
-        status: Number(p.stock ?? 0) === Number(p.low_stock ?? -1) && Number(p.low_stock ?? -1) >= 0
-          ? 'menipis'
-          : (p.status || 'inactive'),
+        status: p.status,
         image: p.image_url || 'https://via.placeholder.com/64?text=P',
         category: p.category || 'Lainnya',
         stock: Number(p.stock || 0),
@@ -145,61 +143,67 @@ export default function ManagementProducts() {
         </div>
       ),
     },
-  { key: "category", header: "Kategori", width: 160 },
-  { key: "stock", header: "Stok", width: 100 },
-  { key: "price", header: "Harga (Rp)", width: 160, render: (r) => `Rp ${r.price.toLocaleString('id-ID')}` },
-    { key: "status", header: "Status", width: 140, render: (r) => <StatusBadge status={r.status} /> },
-    { key: "action", header: "", width: 220, render: (row) => (
-      <div className="actioncell">
-        <button
-          className="link--detail"
-          onClick={() => {
-            setDetailProduct({
-              id: row.id,
-              name: row.title,
-              category: row.category || 'Lainnya',
-              description: row.description,
-              price: row.price,
-              stock: row.stock,
-              unit: row.unit || 'Unit',
-              status: row.status,
-              image: row.image,
-              low_stock: row.low_stock,
-            });
-            setOpenDetail(true);
-          }}
-        >
-          Lihat Detail
-        </button>
-        <ActionsMenu
-          onEdit={() => {
-            // buka modal detail dalam mode edit
-            setDetailProduct({
-              id: row.id,
-              name: row.title,
-              category: row.category || 'Lainnya',
-              description: row.description,
-              price: row.price,
-              stock: row.stock,
-              unit: row.unit || 'Unit',
-              status: row.status,
-              image: row.image,
-              low_stock: row.low_stock,
-            });
-            setDetailEdit(true);
-            setOpenDetail(true);
-          }}
-          onChangeStatus={() => {
-            setStatusTarget({ id: row.id, status: row.status });
-            setStatusModalOpen(true);
-          }}
-          onDelete={() => {
-            setConfirmTarget({ id: row.id });
-            setConfirmOpen(true);
-          }}
-        />
-      </div>
-    ) },
+    { key: "category", header: "Kategori", width: 160 },
+    { key: "stock", header: "Stok", width: 100 },
+    { key: "price", header: "Harga (Rp)", width: 160, render: (r) => `Rp ${r.price.toLocaleString('id-ID')}` },
+    {
+      key: "status", header: "Status", width: 140, render: (r) => <StatusBadge status={
+        r.status === 'inactive' ? r.status : (Number(r.stock ?? 0) === Number(r.low_stock ?? -1) && Number(r.low_stock ?? -1) >= 0 ? 'menipis' : r.status)
+      } />
+    },
+    {
+      key: "action", header: "", width: 220, render: (row) => (
+        <div className="actioncell">
+          <button
+            className="link--detail"
+            onClick={() => {
+              setDetailProduct({
+                id: row.id,
+                name: row.title,
+                category: row.category || 'Lainnya',
+                description: row.description,
+                price: row.price,
+                stock: row.stock,
+                unit: row.unit || 'Unit',
+                status: row.status === 'inactive' ? row.status : (Number(row.stock ?? 0) === Number(row.low_stock ?? -1) && Number(row.low_stock ?? -1) >= 0 ? 'menipis' : row.status),
+                image: row.image,
+                low_stock: row.low_stock,
+              });
+              setOpenDetail(true);
+            }}
+          >
+            Lihat Detail
+          </button>
+          <ActionsMenu
+            onEdit={() => {
+              // buka modal detail dalam mode edit
+              setDetailProduct({
+                id: row.id,
+                name: row.title,
+                category: row.category || 'Lainnya',
+                description: row.description,
+                price: row.price,
+                stock: row.stock,
+                unit: row.unit || 'Unit',
+                status: row.status,
+                image: row.image,
+                low_stock: row.low_stock,
+              });
+              setDetailEdit(true);
+              setOpenDetail(true);
+            }}
+            onChangeStatus={() => {
+              setStatusTarget({ id: row.id, status: row.status });
+              setStatusModalOpen(true);
+            }}
+            onDelete={() => {
+              setConfirmTarget({ id: row.id });
+              setConfirmOpen(true);
+            }}
+          />
+        </div>
+      )
+    },
   ];
 
   return (
@@ -241,7 +245,7 @@ export default function ManagementProducts() {
         ]}
       />
 
-  <DataTable columns={columns} data={paged} />
+      <DataTable columns={columns} data={paged} />
 
       <StatusModal
         open={statusModalOpen}
@@ -394,6 +398,7 @@ export default function ManagementProducts() {
             description: data.description || '',
             low_stock: Number(data.low_stock || 0),
             status: data.status ? 'active' : 'inactive',
+            stock: data.stock
           };
           try {
             await updateProduct(productId, payload);
