@@ -1,8 +1,11 @@
 .page_header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: white;
+  position: relative;
+  border-bottom: rgba(0, 0, 0, 0.1) 1px solid;
 }
 
 .page_header-right {
@@ -19,7 +22,14 @@
 
 .page__username {
   padding-right: 6px;
-  color: #6b7280;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.page__username--transparent {
+  padding-right: 6px;
+  color: #000000;
   font-size: 18px;
   font-weight: 500;
 }
@@ -29,4 +39,20 @@
   padding: 4px;
   align-items: center;
   justify-content: center;
+}
+
+/* Transparent variant used for hero/header overlay */
+.page_header--transparent {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 18px 28px;
+  background: transparent;
+  border-bottom: rgba(0, 0, 0, 0) 1px solid;
+  z-index: 40;
+}
+
+.page_header--transparent .page__username {
+  color: #020000;
 }

@@ -42,7 +42,7 @@ export async function uploadProductImage(productId, file) {
   if (!productId) throw new Error('productId is required');
   if (!file) throw new Error('file is required');
   const form = new FormData();
-  form.append('image', file, file.name || 'image');
+  form.append('file', file);
   const path = `/product/controller/api/v1/${encodeURIComponent(productId)}/image`;
   // Most APIs accept PUT for replace or POST for create; using PUT by default here
   return apiClient(path, { method: 'POST', body: form });
@@ -63,4 +63,11 @@ export async function updateProduct(productId, payload = {}) {
 
   const path = `/product/controller/api/v1/${encodeURIComponent(productId)}`;
   return apiClient(path, { method: 'PUT', body });
+}
+
+// Fetch a single product by id
+export async function getProduct(productId) {
+  if (!productId) throw new Error('productId is required');
+  const path = `/product/controller/api/v1/${encodeURIComponent(productId)}`;
+  return apiClient(path, { method: 'GET' });
 }

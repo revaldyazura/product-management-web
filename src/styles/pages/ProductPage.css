@@ -1,0 +1,194 @@
+/* Product detail page styles tailored to the provided mock */
+
+.product-page__main { padding: 24px; }
+.product-page__container { max-width: 1200px; margin: 0 auto; }
+
+.product-detail__grid {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Gallery */
+.product-gallery {
+  background: #ffffff;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  flex: 1 1 0%;
+  min-width: 0; /* prevent overflow with long images */
+}
+
+.product-gallery__main {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+  display: block;
+}
+
+.product-gallery__thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.product-gallery__thumb {
+  width: 72px;
+  height: 72px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity .15s ease, transform .15s ease;
+}
+.product-gallery__thumb:hover { opacity: 1; transform: translateY(-1px); }
+.product-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.product-gallery__thumb--active { outline: 2px solid #f97316; /* orange-500 */ opacity: 1; }
+
+/* Info card (right) */
+.product-info {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  position: sticky;
+  top: 84px; /* below header */
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  flex: 0 0 360px;
+  width: 360px;
+}
+
+.product-info__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 4px 0 8px;
+}
+
+.product-info__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #6b7280; /* gray-500 */
+  font-size: 14px;
+}
+.product-info__meta .star { color: #f59e0b; /* amber-500 */ }
+.product-info__meta .dot { color: #9ca3af; }
+
+.product-info__price {
+  color: #f97316; /* orange-500 */
+  font-weight: 800;
+  font-size: 28px;
+  margin: 12px 0;
+}
+
+.badge-discount {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #fee2e2; /* red-100 */
+  color: #ef4444; /* red-500 */
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.product-info__subtext { color: #6b7280; font-size: 12px; }
+
+/* Quantity */
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.qty__control {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.qty__btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb; /* gray-50 */
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.qty__value {
+  width: 48px;
+  text-align: center;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.pill {
+  display: inline-block;
+  background: #ecfdf5; /* emerald-50 */
+  color: #10b981; /* emerald-500 */
+  border: 1px solid #a7f3d0; /* emerald-200 */
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+.btn-primary {
+  width: 100%;
+  background: #f97316;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  height: 44px;
+  cursor: pointer;
+}
+.btn-primary:hover { filter: brightness(0.95); }
+.btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Description */
+.product-desc {
+  margin-top: 24px;
+}
+
+.product-desc__header {
+  background: #f3f4f6; /* gray-100 */
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #111827; /* gray-900 */
+  margin-bottom: 12px;
+}
+
+.product-desc__content {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  color: #374151; /* gray-700 */
+  line-height: 1.6;
+}
+.product-desc__content ul { margin: 8px 0 0 18px; }
+.product-desc__content li { margin: 2px 0; }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .product-detail__grid { flex-direction: column; }
+  .product-info { position: static; }
+}

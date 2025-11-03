@@ -7,6 +7,8 @@ import HomePage from '../pages/HomePage';
 import ManagementUsers from '../pages/admin/ManagementUsers';
 import ManagementProducts from '../pages/admin/ManagementProducts';
 import RequireRole from './RequireRole';
+import ProductPage from '../pages/ProductPage';
+import AllProductsPage from '../pages/AllProductsPage';
 
 function PrivateRoute({ children }) {
   const { user, initializing } = useAuth();
@@ -25,6 +27,22 @@ export default function AppRoutes() {
           element={
             <PrivateRoute>
               <HomePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <PrivateRoute>
+              <AllProductsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/product/:id"
+          element={
+            <PrivateRoute>
+              <ProductPage />
             </PrivateRoute>
           }
         />

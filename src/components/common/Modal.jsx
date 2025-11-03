@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import {createPortal} from 'react-dom';
 import '../../styles/components/common/Modal.css';
 
 /**
@@ -22,7 +22,7 @@ export default function Modal({ open, onClose, title, subtitle, footer, width = 
 
   if (!open) return null;
 
-  return ReactDOM.createPortal(
+  return createPortal(
     <div className="adminmodal__backdrop" onClick={(e) => {
       // only close if clicking the backdrop, not inside the panel
       if (e.target === e.currentTarget) onClose?.();

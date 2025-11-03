@@ -1,5 +1,3 @@
-
-
 .btn {
   border: 1px solid #e5e7eb;
   background: #fff;
@@ -29,7 +27,7 @@
 }
 
 .confirm-modal__icon {
-  width: 72px;
+  width: 112px;
   height: 72px;
   border-radius: 72px;
   border: 2px solid #fecaca;

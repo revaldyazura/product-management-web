@@ -11,10 +11,10 @@ import { withBaseUrl } from '../../utils/helper';
  * PageHeader (App-level top header bar used across pages)
  * Shows logo, user menu dropdown, user name and avatar
  */
-export default function PageHeader() {
+export default function PageHeader({ transparent = false}) {
   const { user } = useAuth();
   return (
-    <header className="page_header">
+    <header className={"page_header" + (transparent ? ' page_header--transparent' : '')}>
       <div className="page_header-left">
         <Logo />
       </div>

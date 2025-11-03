@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import Modal from './Modal';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import '../../styles/components/common/ConfirmModal.css';
@@ -14,7 +14,7 @@ import '../../styles/components/common/ConfirmModal.css';
  * - confirmLabel?: string
  */
 export default function ConfirmModal({ open, onClose, title = 'Konfirmasi', message = 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.', onConfirm, confirmLabel = 'Hapus' }) {
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleConfirm = async () => {
         try {

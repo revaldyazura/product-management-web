@@ -2,14 +2,65 @@ import PageHeader from '../components/common/PageHeader';
 // import { useAuth } from '../context/AuthContext';
 import '../styles/pages/HomePage.css';
 import SearchIcon from '@mui/icons-material/Search';
-import InputField from '../components/form/InputField';
+import SearchAutocomplete from '../components/form/SearchAutocomplete';
+import ProductCard from '../components/product/ProductCard';
+import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { getProducts } from '../services/productService';
+import { useToast } from '../context/ToastContext';
+import defaultImage from "../assets/No_Image_Available.jpg";
+import { withBaseUrl } from '../utils/helper';
 
 export default function HomePage() {
-    // const { user } = useAuth();
+    const navigate = useNavigate();
+    const [search, setSearch] = useState("");
+    const [status, setStatus] = useState("active");
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [result, setResult] = useState({ open: false, type: 'success', title: '', message: '' });
+    const { success: toastSuccess, error: toastError } = useToast();
+    const [items, setItems] = useState([]);
+    const [paginationInfo, setPaginationInfo] = useState({ totalElements: 0, totalPages: 1, currentPage: 1, size: pageSize });
+
+    const fetchProducts = useCallback(async ({ pageArg = page, sizeArg = pageSize, searchArg = search, statusArg = status } = {}) => {
+        try {
+            const res = await getProducts({ page: pageArg, size: sizeArg, search: searchArg, status: statusArg });
+            const apiItems = Array.isArray(res?.data) ? res.data : [];
+            const mapped = apiItems.map((p) => ({
+                id: p.product_id,
+                title: p.name,
+                price: Number(p.unit_price || 0),
+                created_at: (p.created_at || '').split('T')[0] || '',
+                status: p.status,
+                image: p.image_url ? withBaseUrl(p.image_url) : defaultImage,
+                category: p.category || 'Lainnya',
+                stock: Number(p.stock || 0),
+                low_stock: Number(p.low_stock || 0),
+                unit: 'Unit',
+                description: p.description || '',
+            }));
+            setItems(mapped);
+            const pg = res?.pagination_info || {};
+            setPaginationInfo({
+                totalElements: Number(pg.totalElements || mapped.length || 0),
+                totalPages: Number(pg.totalPages || 1),
+                currentPage: Number(pg.currentPage || pageArg || 1),
+                size: Number(pg.size || sizeArg || 10),
+            });
+        } catch (e) {
+            toastError(e?.message || 'Gagal memuat produk');
+        }
+    }, [page, pageSize, search, status, toastError]);
+    useEffect(() => {
+        setStatus("active");
+        // Fetch recommendations once (not affected by search input)
+        fetchProducts({ pageArg: page, sizeArg: pageSize, searchArg: '', statusArg: status });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, pageSize, status]);
 
     return (
         <div className="home">
-            <PageHeader />
+            <PageHeader transparent />
 
             <section className="home__hero">
                 <div className="home__hero-content">
@@ -17,45 +68,39 @@ export default function HomePage() {
                     <p>Cari furniture mulai dari meja, lemari, hingga rak di sini</p>
 
                     <div className="home__search">
-                        {/* <input type="text" placeholder="Cari produk" /> */}
-                        <InputField
+                        <SearchIcon className="home__search-icon" />
+                        <SearchAutocomplete
                             id="search"
                             label="Cari produk"
-                            // placeholder="Cari produk"
-                            type='text'
-                            fullWidth={true}
-                            variant="outlined"
-                            transparentOutline
-                            labelColor='#111827'
-                            focusedLabelColor='#111827'
+                            value={search}
+                            onSearch={(val) => setSearch(val)}
+                            freeSolo
+                            options={items.map((option) => ({ id: option.id, label: option.title }))}
+                            onSelectOption={(opt) => {
+                                // opt is the selected object provided by the Autocomplete options
+                                // update search text and navigate to product detail if id exists
+                                if (opt && opt.label) setSearch(opt.label);
+                                if (opt && opt.id) {
+                                    navigate(`/product/${opt.id}`);
+                                }
+                            }}
                         />
-                        <button className="home__search-btn" aria-label="search"><SearchIcon></SearchIcon></button>
                     </div>
                 </div>
             </section>
 
             <main className="home__main">
                 <div className="home__section-title">
-                    <h2>Rekomendasi</h2>
-                    <button className="home__link">Lihat Semua Produk</button>
+                    <div className="home__title">
+                        <h2 style={{ margin: 0}}>Rekomendasi</h2>
+                        <p>Produk - produk pilihan terbaik dari kami</p>
+                    </div>
+                    <button className="home__link" onClick={() => navigate('/products')}>Lihat Semua Produk</button>
                 </div>
 
                 <div className="home__grid">
-                    {dummyProducts.map((p) => (
-                        <article key={p.id} className="card">
-                            <img src={p.image} alt={p.title} className="card__img" />
-                            <div className="card__body">
-                                <h3 className="card__title">{p.title}</h3>
-                                <div className="card__price-row">
-                                    <div className="card__price">Rp {p.price.toLocaleString('id-ID')}</div>
-                                    {p.discount && <span className="card__badge">{p.discount}%</span>}
-                                </div>
-                                <div className="card__meta">
-                                    <span>⭐ {p.rating}</span>
-                                    <span>{p.sold} Terjual</span>
-                                </div>
-                            </div>
-                        </article>
+                    {items.map((p) => (
+                        <ProductCard key={p.id} product={p} />
                     ))}
                 </div>
             </main>

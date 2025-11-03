@@ -14,6 +14,8 @@ import { deleteProduct, getProducts, addProduct, uploadProductImage, updateProdu
 import AddProduct from "../../components/form/AddProduct";
 import { useToast } from '../../context/ToastContext';
 import ProductDetail from "../../components/product/ProductDetail";
+import defaultImage from "../../assets/No_Image_Available.jpg";
+import { withBaseUrl } from '../../utils/helper';
 
 export default function ManagementProducts() {
   const [search, setSearch] = useState("");
@@ -47,7 +49,7 @@ export default function ManagementProducts() {
         created_at: (p.created_at || '').split('T')[0] || '',
         // FE-only visualization: menipis when stock equals low_stock (do not change BE status)
         status: p.status,
-        image: p.image_url || 'https://via.placeholder.com/64?text=P',
+        image: p.image_url ? withBaseUrl(p.image_url) : defaultImage,
         category: p.category || 'Lainnya',
         stock: Number(p.stock || 0),
         low_stock: Number(p.low_stock || 0),
@@ -135,7 +137,7 @@ export default function ManagementProducts() {
       width: "40%",
       render: (row) => (
         <div className="usercell">
-          <img className="usercell__avatar" src={row.image} alt={row.title} />
+          <img className="usercell__avatar" src={row.image} alt={row.name} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = defaultImage; }}/>
           <div>
             <div className="usercell__name">{row.title}</div>
             {/* <div className="usercell__email">SKU: {row.sku}</div> */}
@@ -330,7 +332,7 @@ export default function ManagementProducts() {
               unit_price: Number(data.price) || 0,
               low_stock: Number(data.low_stock || 0),
               // if file will be uploaded separately, avoid sending blob URL
-              image_url: data.imageFile ? '' : (data.imageUrl || ''),
+              // image_url: data.imageFile ? '' : (data.imageUrl || ''),
               status: data.status ? 'active' : 'inactive',
             };
             try {
