@@ -214,11 +214,11 @@ export default function ManagementProducts() {
       <SectionManagement
         title="Daftar Produk"
         subtitle="Lihat semua produk yang tersedia di inventaris."
-        right={(
-          <button className="admintb__btn" onClick={() => setResult({ open: true, type: 'success', title: 'Info', message: 'Fitur Perbarui Stok akan segera tersedia.' })}>
-            Perbarui Stok Produk
-          </button>
-        )}
+        // right={(
+        //   <button className="admintb__btn" onClick={() => setResult({ open: true, type: 'success', title: 'Info', message: 'Fitur Perbarui Stok akan segera tersedia.' })}>
+        //     Perbarui Stok Produk
+        //   </button>
+        // )}
         addLabel="Tambah Produk"
         onAdd={() => setOpenAdd(true)}
       />

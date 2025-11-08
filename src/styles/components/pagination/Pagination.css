@@ -107,7 +107,8 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  overflow: hidden;
+  /* Do not clip popovers inside table cells (e.g., ActionsMenu) */
+  overflow: visible;
 }
 
 .admintable.table {

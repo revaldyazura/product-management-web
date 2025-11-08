@@ -6,7 +6,8 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  overflow: hidden;
+  /* Allow popovers/menus inside table cells to overflow (e.g., ActionsMenu) */
+  overflow: visible;
 }
 
 .admintable.table {

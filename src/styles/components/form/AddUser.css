@@ -107,7 +107,8 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  overflow: hidden;
+  /* Keep consistent with DataTable: allow menus/popovers to overflow */
+  overflow: visible;
 }
 
 .admintable.table {

@@ -13,7 +13,8 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
   padding: 6px;
-  z-index: 30;
+  /* Ensure above nearby UI like pagination */
+  z-index: 100;
 }
 
 .actionmenu__item {
